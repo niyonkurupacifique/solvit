@@ -1,74 +1,34 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import Home from "./components-folder/Home";
+import { Routes, Route } from "react-router";
+import Aboutus from "./components-folder/Aboutus";
+import Topstory from "./components-folder/ourStory";
+import Quote from "./components-folder/quote";
+import Dashboard from "./components-folder/dashboard";
+
 
 class App extends Component {
-  constructor(){
-    super()
-    this.state={
-      data:[],
-      loading:true,
-      searchQerry:''
-    }
-  }
-  
-   async componentDidMount(){
-    const result=await fetch("https://api.openweathermap.org/data/2.5/forecast?q=kigali&appid=1383c1ef39cccbbc106d269850cfc481")
-    const mydata=await result.json()
-    this.setState({data:mydata.list,loading:false})
-   }
-
-   search=(event)=>{
-const searchQerry= event.target.value
-console.log(searchQerry)
-console.log(this.state)
-this.setState({searchQerry});
-}
-   
-
-  
   render() {
-    let filteredList=null
-    filteredList= this.state.data.filter((filterData)=>(
-      filterData.weather[0].main.toLowerCase().includes(this.state.searchQerry.toLowerCase())
-    ))
-
-    let displayContent=null
-    if(this.state.loading)
-    {
-      displayContent=<div>
-        <h1>loading..........</h1>
-      </div>
-    }
-    else if(filteredList.length>0)
-    {
-    displayContent=  
-      (
-      <div>
-        
-        {filteredList.map((mydata)=>(
-      <h1>{mydata.weather[0].main}</h1>
-      
-      
-        ))}
-      </div>
-      )
-    }
-    else{
-      displayContent=<div>
-        <p style={{color:"red"}}>no result found</p>
-      </div>
-    }
     return (
-    
-    
-      <div className="App">
-        <input type placeholder='search..........' onChange={this.search} className="myinput"></input><br/>
-        
-     <div className='divone'><p>{displayContent}</p></div>
+      <>
+      
+      <div>
+        <main>
+          <Routes>
+            <Route exact path="/" element={<Home/>}></Route> 
+             <Route path="/home" element={<Home/>}></Route>
+            <Route path="/aboutus" element={<Aboutus/>} />
+            <Route path="/topstory" element={<Topstory/>}></Route>
+            <Route path="/quote" element={<Quote/>}></Route>
+            <Route path="/signin" element={<Dashboard/>}></Route>
+            
+          </Routes>
+        </main>
       </div>
+      </>
     );
-     }
   }
-
+}
 
 export default App;
